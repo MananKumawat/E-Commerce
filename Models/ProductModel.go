@@ -2,7 +2,11 @@ package Models
 
 import (
 	"gorm.io/gorm"
+	"sync"
 )
+
+var ProductMutex sync.Mutex
+var OrderMutex sync.Mutex
 
 type Product struct {
 	gorm.Model
@@ -21,7 +25,7 @@ type Order struct {
 type Item struct {
 	gorm.Model
 	OrderId		uint
-	Name 		string `json:"name"`
-	Price 		uint   `json:"price"`
+	ProductId	uint `json:"product_id"`
 	Quantity	uint   `json:"quantity"`
+
 }

@@ -1,28 +1,34 @@
 package main
 
 import (
-	"awesomeProject/Day45/Exercise/Config"
-	"awesomeProject/Day45/Exercise/Models"
-	"awesomeProject/Day45/Exercise/Routes"
+	"github.com/MananKumawat/E-Commerce/Config"
+	"github.com/MananKumawat/E-Commerce/Models"
+	"github.com/MananKumawat/E-Commerce/Routes"
+	"github.com/MananKumawat/E-Commerce/Server"
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
-
+	"net/http"
+	"strconv"
 )
 var err error
 func main() {
 
 	Config.DB, err = gorm.Open(mysql.Open(Config.DbURL(Config.BuildDBConfig())), &gorm.Config{
-		Logger: logger.Default.LogMode(logger.Info),
+		//Logger: logger.Default.LogMode(logger.Info),
 	})
 	if err != nil {
 		fmt.Println("Status:", err)
 	}
 
 	Config.DB.AutoMigrate(&Models.Product{})
+	Config.DB.AutoMigrate(&Models.Item{})
+	Config.DB.AutoMigrate(&Models.Order{})
+
+	Server.Start()
 
 	r := Routes.SetupRouter()
+	http.ListenAndServe("localhost:" + strconv.Itoa(8080), r)
 	//running
 	r.Run()
 

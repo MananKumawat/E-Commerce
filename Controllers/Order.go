@@ -1,11 +1,12 @@
 package Controllers
 
-
 import (
-	"awesomeProject/Day45/Exercise/Models"
+	"github.com/MananKumawat/E-Commerce/Models"
+	"github.com/MananKumawat/E-Commerce/Server"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"time"
 )
 //GetOrders ... Get all orders
 func GetOrders(c *gin.Context) {
@@ -21,14 +22,12 @@ func GetOrders(c *gin.Context) {
 func CreateOrder(c *gin.Context) {
 	var order Models.Order
 	c.BindJSON(&order)
-	err := Models.CreateOrder(&order)
-	if err != nil {
-		fmt.Println(err.Error())
-		c.AbortWithStatus(http.StatusNotFound)
-	} else {
-		c.JSON(http.StatusOK, order)
+	order.Status = ""
+	Server.OrderChannel <- &order
+	time.Sleep(time.Second * 5)
+	c.JSON(http.StatusOK, order)
 	}
-}
+
 //GetOrderByID ... Get the order by id
 func GetOrderByID(c *gin.Context) {
 	id := c.Params.ByName("id")

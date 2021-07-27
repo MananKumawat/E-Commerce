@@ -1,4 +1,4 @@
-module awesomeProject/Day45/Exercise
+module github.com/MananKumawat/E-Commerce
 
 go 1.16
 
