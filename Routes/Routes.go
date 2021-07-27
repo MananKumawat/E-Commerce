@@ -1,6 +1,6 @@
 package Routes
 import (
-	"awesomeProject/Day45/Exercise/Controllers"
+	"github.com/MananKumawat/E-Commerce/Controllers"
 	"github.com/gin-gonic/gin"
 )
 //SetupRouter ... Configure routes

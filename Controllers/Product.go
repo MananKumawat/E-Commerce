@@ -1,8 +1,7 @@
 package Controllers
 
-
 import (
-	"awesomeProject/Day45/Exercise/Models"
+	"github.com/MananKumawat/E-Commerce/Models"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -31,9 +30,8 @@ func CreateProduct(c *gin.Context) {
 }
 //GetProductByID ... Get the product by id
 func GetProductByID(c *gin.Context) {
-	id := c.Params.ByName("id")
 	var product Models.Product
-	err := Models.GetProductByID(&product, id)
+	err := Models.GetProductByID(&product, 1)
 	if err != nil {
 		c.AbortWithStatus(http.StatusNotFound)
 	} else {
@@ -43,13 +41,12 @@ func GetProductByID(c *gin.Context) {
 //UpdateProduct ... Update the product information
 func UpdateProduct(c *gin.Context) {
 	var product Models.Product
-	id := c.Params.ByName("id")
-	err := Models.GetProductByID(&product, id)
+	err := Models.GetProductByID(&product, 1)
 	if err != nil {
 		c.JSON(http.StatusNotFound, product)
 	}
 	c.BindJSON(&product)
-	err = Models.UpdateProduct(&product, id)
+	err = Models.UpdateProduct(&product)
 	if err != nil {
 		c.AbortWithStatus(http.StatusNotFound)
 	} else {
