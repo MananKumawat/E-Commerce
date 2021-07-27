@@ -43,8 +43,7 @@ func GetOrderByID(c *gin.Context) {
 //GetOrderByCustomerID ... Get the order by id
 func GetOrderByCustomerID(c *gin.Context) {
 	customer_id := c.Params.ByName("customer_id")
-	fmt.Println(customer_id)
-	var order Models.Order
+	var order []Models.Order
 	err := Models.GetOrderByCustomerID(&order, customer_id)
 	if err != nil {
 		c.AbortWithStatus(http.StatusNotFound)
@@ -78,5 +77,17 @@ func DeleteOrder(c *gin.Context) {
 		c.AbortWithStatus(http.StatusNotFound)
 	} else {
 		c.JSON(http.StatusOK, gin.H{"id" + id: "is deleted"})
+	}
+}
+
+//GetOrderPlaced ... Get all placed orders
+func GetOrderPlaced(c *gin.Context){
+	var order []Models.Order
+	err := Models.GetOrderPlaced(&order)
+	if err != nil {
+		fmt.Println(err.Error())
+		c.AbortWithStatus(http.StatusNotFound)
+	} else {
+		c.JSON(http.StatusOK, order)
 	}
 }
